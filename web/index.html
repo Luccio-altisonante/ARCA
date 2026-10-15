@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="only light">
+    <link rel="icon" href="./assets/icons/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="./assets/icons/icon-32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="./assets/icons/icon-16.png" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="stylesheet" href="./style.css">
+    <meta name="theme-color" content="#173e4b">
+    <title>ARCA · Assonanze, Rime, Consonanze e Anagrammi</title>
+</head>
+<body>
+    <a class="salta-contenuto" href="#comando">Vai alla ricerca</a>
+    <header class="app-header">
+        <div class="contenitore barra-header">
+            <a class="brand" href="./" aria-label="ARCA Home"><strong>ARCA</strong><span>Assonanze, Rime, Consonanze e Anagrammi</span></a>
+            <button id="menu-navigazione" class="pulsante-icona" type="button" aria-label="Apri navigazione" aria-expanded="false" aria-controls="navigazione" title="Navigazione">☰</button>
+            <nav id="navigazione" aria-label="Navigazione principale">
+                <a href="./" aria-current="page">Home</a>
+                <a href="#storia" data-dialog="storia">Storia del progetto</a>
+                <a href="#crediti" data-dialog="crediti">Crediti e licenze</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app" class="contenitore app-main" aria-busy="true">
+        <section class="hero" aria-labelledby="titolo-arca">
+            <h1 id="titolo-arca">ARCA</h1>
+            <p>Assonanze, Rime, Consonanze e Anagrammi</p>
+        </section>
+        <div class="onboarding">
+            <section id="onboarding-installazione" class="banner banner-installazione" aria-labelledby="titolo-installazione" hidden>
+                <span class="simbolo-banner" aria-hidden="true">↓</span>
+                <div><h2 id="titolo-installazione">ARCA dà il meglio come app</h2><p>Installala per aprirla dalla schermata Home e usarla anche offline.</p></div>
+                <button id="installa-arca" class="pulsante-primario" type="button">Installa ARCA</button>
+                <button id="chiudi-installazione" class="pulsante-icona chiudi-banner" type="button" aria-label="Chiudi invito all'installazione" title="Chiudi">×</button>
+            </section>
+            <section id="onboarding-personale" class="banner banner-personale" aria-labelledby="titolo-personale">
+                <span class="simbolo-banner" aria-hidden="true">＋</span>
+                <div><h2 id="titolo-personale">Personalizza il tuo vocabolario</h2><p>Crea una copia personale per aggiungere e rimuovere le tue parole mantenendo anche il filtro sillabico.</p></div>
+                <button id="onboarding-personale-azione" class="pulsante-primario" type="button" disabled>Crea copia personale</button>
+            </section>
+        </div>
+        <section class="modalita-guidate" aria-label="Esplora ARCA">
+            <button class="card-modalita assonanze" data-guida="assonanze" aria-expanded="false" aria-controls="guida-modalita" type="button"><span class="simbolo-modalita" aria-hidden="true">≈</span><span><strong>Assonanze</strong><small>Esplora i modelli</small></span><span aria-hidden="true">›</span></button>
+            <button class="card-modalita rime" data-guida="rime" aria-expanded="false" aria-controls="guida-modalita" type="button"><span class="simbolo-modalita" aria-hidden="true">♪</span><span><strong>Rime</strong><small>Cerca terminazioni</small></span><span aria-hidden="true">›</span></button>
+            <button class="card-modalita consonanze" data-guida="consonanze" aria-expanded="false" aria-controls="guida-modalita" type="button"><span class="simbolo-modalita" aria-hidden="true">≋</span><span><strong>Consonanze</strong><small>Esplora le lettere</small></span><span aria-hidden="true">›</span></button>
+            <button class="card-modalita anagrammi" data-guida="anagrammi" aria-expanded="false" aria-controls="guida-modalita" type="button"><span class="simbolo-modalita" aria-hidden="true">⇄</span><span><strong>Anagrammi</strong><small>Ricomponi le lettere</small></span><span aria-hidden="true">›</span></button>
+        </section>
+        <section id="guida-modalita" class="guida-modalita" aria-labelledby="titolo-guida" hidden>
+            <h2 id="titolo-guida"></h2><p id="testo-guida"></p>
+            <div id="esempi-guida" class="esempi"></div>
+        </section>
+        <section class="ricerca-principale" aria-labelledby="titolo-ricerca">
+            <h2 class="solo-lettori" id="titolo-ricerca">Cerca nel vocabolario</h2>
+            <form id="modulo-ricerca" class="modulo-ricerca" novalidate>
+                <label class="solo-lettori" for="comando">Parola o comando</label>
+                <input
+                    id="comando"
+                    name="comando"
+                    type="text"
+                    placeholder="Scrivi una parola o un comando, es. ?a??e*r?"
+                    autocomplete="off"
+                    spellcheck="false"
+                    disabled
+                >
+                <button id="esegui" type="submit" disabled>Cerca</button>
+                <fieldset class="filtro-sillabe">
+                    <legend class="solo-lettori">Filtro sillabico</legend>
+                    <div class="intestazione-filtro">
+                        <label class="attiva-filtro" for="filtra-sillabe">
+                            <input id="filtra-sillabe" type="checkbox" aria-controls="campi-sillabe" aria-describedby="stato-sillabe" disabled>
+                            Filtra per sillabe
+                        </label>
+                        <p id="stato-sillabe" class="stato" data-stato="non_disponibile" aria-live="polite">Filtro sillabico non disponibile</p>
+                    </div>
+                    <div id="campi-sillabe" class="campi-sillabe" hidden>
+                        <div class="campo-sillabe">
+                            <label for="modalita-sillabe">Modalit&agrave;</label>
+                            <select id="modalita-sillabe" disabled>
+                                <option value="ESATTAMENTE">Esattamente</option>
+                                <option value="ALMENO">Almeno</option>
+                                <option value="AL_MASSIMO">Al massimo</option>
+                                <option value="TRA">Tra</option>
+                            </select>
+                        </div>
+                        <div class="campo-sillabe">
+                            <label id="etichetta-minimo-sillabe" for="minimo-sillabe">Sillabe</label>
+                            <input id="minimo-sillabe" type="number" min="1" max="4294967295" step="1" inputmode="numeric" value="2" aria-describedby="errore-sillabe" required disabled>
+                        </div>
+                        <div id="campo-massimo-sillabe" class="campo-sillabe" hidden>
+                            <label for="massimo-sillabe">Massimo</label>
+                            <input id="massimo-sillabe" type="number" min="1" max="4294967295" step="1" inputmode="numeric" value="3" aria-describedby="errore-sillabe" required disabled>
+                        </div>
+                    </div>
+                    <p id="errore-sillabe" class="errore-sillabe" role="alert" hidden></p>
+                    <p id="nota-sillabe" class="nota-privacy" hidden></p>
+                </fieldset>
+            </form>
+            <p id="stato-vocabolario" class="stato" data-stato="caricamento" aria-live="polite">
+                Caricamento vocabolario...
+            </p>
+        </section>
+
+        <section class="sezione risultati" aria-labelledby="titolo-risultati">
+            <div class="intestazione-sezione">
+                <h2 id="titolo-risultati">Risultati</h2>
+            </div>
+            <div id="risultato" class="output-risultati" tabindex="0" aria-label="Risultati della ricerca" aria-live="polite">
+                <p class="messaggio-risultato">Nessuna ricerca eseguita.</p>
+            </div>
+            <nav id="paginazione" class="paginazione" aria-label="Pagine dei risultati" hidden>
+                <button id="pagina-precedente" class="pulsante-secondario" type="button">Precedente</button>
+                <span id="stato-pagina" aria-live="polite"></span>
+                <button id="pagina-successiva" class="pulsante-secondario" type="button">Successiva</button>
+            </nav>
+        </section>
+
+        <div class="vocabolario">
+            <div id="vocabolario-attivo" class="vocabolario-attivo" data-modalita="originale">
+                <p>
+                    <strong id="tipo-vocabolario">Vocabolario originale</strong>
+                    <span aria-hidden="true">&middot;</span>
+                    <span id="conteggio">-</span>
+                </p>
+                <p id="dettaglio-vocabolario">VocabolarioItaliano.txt &middot; Sola lettura</p>
+            </div>
+
+            <details class="gestione-vocabolario"><summary>Gestisci vocabolario</summary>
+            <div class="azioni-vocabolario">
+                <button id="usa-originale" class="pulsante-secondario" type="button" disabled>Usa originale</button>
+                <button id="crea-personale" class="pulsante-secondario" type="button" disabled>Crea copia personale</button>
+                <button id="usa-personale" class="pulsante-secondario" type="button" disabled>Usa copia personale</button>
+                <input id="file-vocabolario" class="file-vocabolario" type="file" accept=".txt,text/plain" aria-label="Crea o sostituisci il vocabolario personale da un file di testo" disabled>
+                <a id="esporta-personale" class="pulsante-secondario pulsante-link" href="#" download="vocabolario-personale.txt" aria-disabled="true">Esporta vocabolario personale</a>
+                <button id="elimina-personale" class="pulsante-pericolo-secondario" type="button" disabled>Elimina copia personale</button>
+            </div>
+
+            <p class="nota-privacy">Per aggiungere o rimuovere parole, crea e usa una copia personale. Il filtro sillabico resta disponibile; per le parole prive di dati ufficiali viene usata una stima automatica.</p>
+            <p class="nota-privacy">Il vocabolario personale è salvato su questo dispositivo/browser e non viene inviato a server. La cancellazione dei dati del sito può eliminarlo.</p>
+            </details>
+        </div>
+
+        <div class="guide-comandi">
+        <section class="sezione legenda" aria-labelledby="titolo-legenda">
+            <div class="intestazione-sezione">
+                <h2 id="titolo-legenda">Legenda</h2>
+            </div>
+
+            <div class="elenco-comandi">
+                <div class="voce-comando">
+                    <code class="operatore">abc</code>
+                    <div>
+                        <p>Cerca gli anagrammi della parola. Aggiungi una lunghezza per usare solo parte delle lettere.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="casa"><code>casa</code></button>
+                            <button type="button" class="esempio-comando" data-comando="cartone 5"><code>cartone 5</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando">
+                    <code class="operatore">?</code>
+                    <div>
+                        <p>Sostituisce esattamente una lettera nella stessa posizione.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="?asa"><code>?asa</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando">
+                    <code class="operatore">*</code>
+                    <div>
+                        <p>Sostituisce zero o pi&ugrave; lettere. All'inizio cerca una terminazione, alla fine cerca un inizio, su entrambi i lati cerca un contenuto. Pu&ograve; essere combinato con <code>?</code>.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="conta*"><code>conta*</code></button>
+                            <button type="button" class="esempio-comando" data-comando="*conta"><code>*conta</code></button>
+                            <button type="button" class="esempio-comando" data-comando="*conta*"><code>*conta*</code></button>
+                            <button type="button" class="esempio-comando" data-comando="?a??e*r?"><code>?a??e*r?</code></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <details class="sezione altre-funzioni">
+            <summary>Altre funzioni</summary>
+            <div class="elenco-comandi">
+                <div class="voce-comando">
+                    <code class="operatore">$</code>
+                    <div>
+                        <p>Trova parole formabili usando soltanto le lettere indicate.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="$casa"><code>$casa</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando">
+                    <code class="operatore">!</code>
+                    <div>
+                        <p>Trova parole che non contengono nessuna delle lettere indicate.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="!xyz"><code>!xyz</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando">
+                    <code class="operatore">&amp;</code>
+                    <div>
+                        <p>Trova parole che contengono tutte le lettere indicate, rispettando anche le ripetizioni.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="&amp;ssa"><code>&amp;ssa</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando">
+                    <code class="operatore">^</code>
+                    <div>
+                        <p>Estrae parole casuali dal vocabolario nel formato <code>^,quante,caratteri</code>.</p>
+                        <div class="esempi">
+                            <button type="button" class="esempio-comando" data-comando="^,3,4"><code>^,3,4</code></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voce-comando"><code class="operatore">+</code><div><p><code>+ parola</code> aggiunge una parola al vocabolario personale.</p></div></div>
+                <div class="voce-comando"><code class="operatore">−</code><div><p><code>- parola</code> rimuove una parola dal vocabolario personale.</p></div></div>
+            </div>
+        </details>
+        </div>
+
+
+        <details class="dettagli-tecnici">
+            <summary>Dettagli tecnici</summary>
+            <dl>
+                <dt>Lettura file</dt>
+                <dd id="tempo-lettura">-</dd>
+                <dt>Caricamento nel core C++</dt>
+                <dd id="tempo-core">-</dd>
+                <dt>Totale</dt>
+                <dd id="tempo-totale">-</dd>
+                <dt>Dimensione file</dt>
+                <dd id="dimensione-file">-</dd>
+                <dt>Memoria WebAssembly</dt>
+                <dd id="memoria-wasm">-</dd>
+            </dl>
+        </details>
+        <button id="apri-coola" class="coola-invito" type="button" data-dialog="coola" aria-haspopup="dialog" aria-controls="coola" aria-labelledby="titolo-invito-coola azione-coola">
+            <span><strong id="titolo-invito-coola">CoolA</strong><span>Anagrammi curiosi, sorprendenti, scelti a mano.</span></span>
+            <span id="azione-coola" class="coola-azione">Scopri la raccolta <span aria-hidden="true">→</span></span>
+        </button>
+    </main>
+
+    <footer class="contenitore footer-sito">
+        <p>ARCA · Luca Montanelli · Instagram <a href="https://www.instagram.com/luca__montanelli/" target="_blank" rel="noopener noreferrer">@luca__montanelli</a></p>
+    </footer>
+
+    <dialog id="coola" class="finestra-conferma" aria-labelledby="titolo-coola" aria-describedby="intro-coola">
+        <h2 id="titolo-coola" tabindex="-1" autofocus>CoolA</h2>
+        <p id="intro-coola">Una piccola raccolta di anagrammi curiosi e memorabili, scelta e aggiornata nel tempo.</p>
+        <p id="stato-coola" class="nota-privacy" role="status" aria-live="polite">Caricamento della raccolta...</p>
+        <ul id="raccolta-coola" aria-label="Anagrammi della raccolta"></ul>
+        <p class="coola-suggerimenti">Hai trovato un anagramma curioso? Suggeriscimelo su Instagram:
+            <a href="https://www.instagram.com/luca__montanelli/" target="_blank" rel="noopener noreferrer">@luca__montanelli</a></p>
+        <form method="dialog"><button class="pulsante-secondario">Chiudi</button></form>
+    </dialog>
+
+    <dialog id="crediti" class="finestra-conferma pagina-informativa" aria-labelledby="titolo-crediti">
+        <h2 id="titolo-crediti">Crediti e licenze</h2>
+        <section aria-labelledby="crediti-arca">
+            <h3 id="crediti-arca">ARCA</h3>
+            <p>Rielaborazione, evoluzione e sviluppo del programma originale
+                <a href="http://www.pierotofy.it/pages/sorgenti/dettagli/19617-Anagrammi=CS/">Anagrammi e non solo</a>
+                di <strong>Carlo Barabucci (2020)</strong>. Conversione ed evoluzione C++, WebAssembly/PWA,
+                interfaccia, strumenti linguistici, integrazione e curatela:
+                <strong>Luca Montanelli</strong>, con l'ausilio di strumenti di intelligenza artificiale di OpenAI.</p>
+            <p><a href="./CREDITS.md">Crediti completi</a></p>
+        </section>
+        <section aria-labelledby="crediti-software">
+            <h3 id="crediti-software">Licenza software</h3>
+            <p><strong>GNU GPL versione 3 o successiva (GPL-3.0-or-later)</strong>.</p>
+            <p><a href="./LICENSE">Testo integrale della licenza</a></p>
+        </section>
+        <section aria-labelledby="crediti-dati">
+            <h3 id="crediti-dati">Dati linguistici</h3>
+            <p>Vocabolario Wikizionario/Wiktextract/Kaikki e dataset/runtime sillabico derivato ARCA:
+                <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, distinta dalla licenza del codice.</p>
+            <p>Evidenze sillabiche anche da PhonItalia 1.10 tramite phonItaliaR (CC BY 4.0) e WikiPron
+                (dati Wiktionary, non Apache 2.0), integrate con stima e curatela ufficiale ARCA.</p>
+            <p><a href="./DATASET.md">Vocabolario: provenienza e licenza</a> ·
+                <a href="./SILLABE_DATASET.md">Dataset sillabico: fonti e licenza</a></p>
+        </section>
+        <section aria-labelledby="crediti-terzi">
+            <h3 id="crediti-terzi">Software di terze parti</h3>
+            <p>utf8proc 2.12.0 (MIT/Expat e Unicode Data License); Emscripten (MIT / University of Illinois-NCSA).
+                <a href="./THIRD_PARTY_NOTICES.md">Notice e testi delle licenze</a></p>
+        </section>
+        <form method="dialog"><button class="pulsante-secondario">Chiudi</button></form>
+    </dialog>
+
+    <dialog id="storia" class="finestra-conferma pagina-informativa" aria-labelledby="titolo-storia">
+        <h2 id="titolo-storia" tabindex="-1" autofocus>Storia del progetto</h2>
+        <p class="firma-storia"><em>di Luca Montanelli</em></p>
+        <p>ARCA nasce da un'esigenza molto concreta, rimasta a lungo insoddisfatta durante la scrittura di alcuni miei testi.</p>
+        <p>Mi è capitato spesso di cercare una parola non soltanto per il suo significato, ma per il modo in cui suonava rispetto a ciò che avevo già scritto: cercavo rime, assonanze, consonanze e, più in generale, particolari relazioni tra suoni e lettere. Esistono naturalmente rimari, dizionari e numerosi strumenti dedicati alla scrittura, ma non riuscivo a trovarne uno che riunisse in modo sufficientemente flessibile tutte le ricerche che mi interessavano.</p>
+        <p>L'idea iniziale era quindi molto più semplice di ciò che ARCA sarebbe poi diventato: volevo costruire una sorta di rimario esteso, capace di aiutarmi a individuare non soltanto le rime, ma anche assonanze e consonanze.</p>
+        <p>Per arrivarci ho cominciato a studiare un modo diverso di rappresentare e ordinare matematicamente le parole.</p>
+        <p>Invece di considerare una parola soltanto come una sequenza di lettere da leggere da sinistra verso destra, ho iniziato a osservarne la struttura partendo dalle vocali e dalle loro posizioni. Da questa idea è nata una decomposizione ricorsiva della parola in segmenti che ho chiamato vagoni, collegati fra loro da particolari vocali di riferimento che ho chiamato pivot.</p>
+        <p>Il procedimento parte dall'ultima vocale della parola, cerca verso sinistra la prima vocale non adiacente e usa questa come pivot; il pivot diventa poi a sua volta il nuovo punto di riferimento e lo stesso ragionamento viene applicato ricorsivamente alla parte restante della parola. Da questa struttura deriva un criterio completo di confronto fra parole, diverso dal normale ordine alfabetico e pensato appositamente per mettere in evidenza somiglianze utili alla ricerca di rime, assonanze e altre corrispondenze formali.</p>
+        <p>Questa logica è diventata una delle idee centrali del progetto: il vocabolario non viene più visto semplicemente come un elenco alfabetico di parole, ma come un insieme di elementi dotati di una particolare struttura interna, che può essere confrontata secondo regole precise.</p>
+        <p>Per chi fosse interessato alla costruzione completa, ai casi particolari, agli esempi, alla formalizzazione matematica del metodo e alla verifica empirica sull'intero vocabolario ARCA, ho raccolto tutto in un documento dedicato:</p>
+        <section class="paper-storia" aria-labelledby="titolo-paper-storia">
+            <h3 id="titolo-paper-storia">→ La logica di ordinamento di ARCA</h3>
+            <ul>
+                <li><a href="./papers/ordinamento_arca_paper_it.pdf" target="_blank" rel="noopener">Versione italiana — PDF</a></li>
+                <li><a href="./papers/ordinamento_arca_paper_en.pdf" target="_blank" rel="noopener">English version — PDF</a></li>
+            </ul>
+        </section>
+        <p>L'ordinamento, tuttavia, risolveva soltanto una parte del problema. Cercare manualmente una parola fra centinaia di migliaia di voci di un dizionario digitale, anche quando queste sono organizzate secondo una logica utile, rimane inevitabilmente lento.</p>
+        <p>È stato cercando una soluzione più efficiente che mi sono imbattuto nel programma <em>Anagrammi e non solo</em>, realizzato da Carlo Barabucci nel 2020.</p>
+        <p>Il programma conteneva già diverse funzioni di ricerca particolarmente interessanti e offriva una base molto utile, ma non copriva ancora tutte le esigenze da cui ero partito. Da quel momento il progetto ha cominciato progressivamente ad allontanarsi dall'idea di un semplice rimario e a prendere la forma che oggi ha ARCA.</p>
+        <p>Con l'ausilio degli strumenti di intelligenza artificiale di OpenAI, in particolare ChatGPT e Codex, ho rielaborato, esteso e sviluppato il progetto. Alcune funzioni originariamente separate sono diventate combinabili tra loro, altre sono state modificate o ampliate, e l'intero sistema è stato adattato per lavorare sul vocabolario organizzato secondo la logica di ordinamento che avevo sviluppato.</p>
+        <p>Una delle aggiunte più importanti è stata il filtro sillabico, pensato soprattutto per chi scrive in metrica. Il filtro può essere combinato con le altre modalità di ricerca, permettendo di restringere i risultati anche in base al numero di sillabe e rendendo il sistema più utile nella ricerca di parole che debbano rispettare contemporaneamente vincoli sonori, grafici e metrici.</p>
+        <p>Mi sono poi occupato della progettazione dell'interfaccia, della versione web installabile, della gestione del vocabolario personale, della presentazione grafica e, più in generale, di trasformare le diverse idee accumulate durante lo sviluppo in uno strumento effettivamente utilizzabile.</p>
+        <p>Anche questa fase è nata attraverso numerose sessioni di progettazione, verifica e confronto con ChatGPT e Codex. Gli strumenti di intelligenza artificiale hanno avuto quindi un ruolo importante come supporto allo sviluppo, alla programmazione, al controllo e alla formalizzazione delle idee; le scelte progettuali, gli obiettivi, la logica dell'ordinamento, la curatela e la direzione complessiva del progetto sono invece il risultato del lavoro che ha portato ARCA alla sua forma attuale.</p>
+        <p>Il risultato è ARCA — Assonanze, Rime, Consonanze e Anagrammi: uno strumento nato per la scrittura, ma costruito intorno a un modo più generale di esplorare e mettere in relazione le parole di un vocabolario.</p>
+        <p>C'è però un aspetto che considero ancora più importante delle singole funzioni oggi disponibili.</p>
+        <p>Il modo di rappresentare matematicamente le parole sviluppato per l'ordinamento non è utile soltanto quando si cerca una singola parola. Una volta che ogni parola viene descritta attraverso una struttura confrontabile, diventa naturale estendere lo stesso principio a insiemi più grandi di parole.</p>
+        <p>Questo apre la possibilità di analizzare interi testi alla ricerca di ricorrenze, somiglianze, corrispondenze foniche e strutture che, osservate parola per parola, sarebbero molto più difficili da individuare manualmente.</p>
+        <p>In questa prospettiva ARCA può diventare non soltanto uno strumento per cercare parole, ma anche uno strumento per esplorare alcune caratteristiche formali di un testo e assistere una forma di analisi letteraria automatizzata, mantenendo però sempre distinto ciò che può essere rilevato algoritmicamente da ciò che richiede interpretazione umana.</p>
+        <p>Questa, insieme ad altre funzionalità, è una delle direzioni in cui intendo sviluppare ARCA in futuro.</p>
+        <form method="dialog"><button class="pulsante-secondario">Chiudi</button></form>
+    </dialog>
+    <dialog id="guida-installazione" class="finestra-conferma" aria-labelledby="titolo-guida-installazione">
+        <h2 id="titolo-guida-installazione">Installa ARCA</h2>
+        <p>In Safari, apri il menu Condividi e scegli “Aggiungi alla schermata Home”. Se la voce non compare, apri questa pagina direttamente in Safari.</p>
+        <form method="dialog"><button class="pulsante-secondario">Chiudi</button></form>
+    </dialog>
+    <dialog id="conferma-rimozione" class="finestra-conferma" aria-labelledby="titolo-conferma-rimozione">
+        <h2 id="titolo-conferma-rimozione">Conferma rimozione</h2>
+        <p id="testo-conferma-rimozione"></p>
+        <div class="azioni-conferma">
+            <button id="annulla-rimozione" class="pulsante-secondario" type="button">Annulla</button>
+            <button id="conferma-eliminazione" class="pulsante-pericolo" type="button">Elimina</button>
+        </div>
+    </dialog>
+
+    <script type="module" src="./presentazione.js"></script>
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

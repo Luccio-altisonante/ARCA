@@ -1,0 +1,30 @@
+# File eseguibili e compilati
+*.exe
+*.o
+*.obj
+
+# Cartelle di build
+build/
+cmake-build-*/
+dist/
+
+# Configurazioni locali di Visual Studio Code
+.vscode/
+
+# File generati da Emscripten
+web/anagrammi.js
+web/anagrammi.wasm
+web/*.wasm.map
+web/*.js.map
+
+# Copia del vocabolario generata automaticamente dalla build web
+web/data/*
+!web/data/runtime-sillabe.manifest.json
+!web/data/coola.json
+
+# File temporanei
+*.tmp
+*.log
+
+dati_locali/
+!web/data/runtime-sillabe-*.bin
