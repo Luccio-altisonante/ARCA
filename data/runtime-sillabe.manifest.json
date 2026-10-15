@@ -1,0 +1,11 @@
+{
+  "annotazioni_sha256": "35c428b9a948bb9f49a2a71de9636cdce6c278261c2875a91af76049f83f1bc6",
+  "artifact": "runtime-sillabe-2c1cfababd7a21373fdb7ad221d0e0da26f1de17e2d7a74b6ce59a242978429d.bin",
+  "artifact_sha256": "2c1cfababd7a21373fdb7ad221d0e0da26f1de17e2d7a74b6ce59a242978429d",
+  "dimensione_byte": 5372350,
+  "disponibile": true,
+  "formato": "sillabe-bitmap-le-v1",
+  "numero_grafie": 558124,
+  "schema": 1,
+  "vocabolario_sha256": "b3b5703f69874095e9f9ac630ed0a608b919d969d5cd3a6b6477735db8595ad6"
+}
